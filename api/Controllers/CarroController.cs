@@ -72,7 +72,7 @@ namespace api.Controllers
 
         [HttpDelete]
         [Route("/carros/destroy/{id}")]
-        public async Task<IActionResult> destroy(int id)
+        public async Task<IActionResult> Destroy(int id)
         {
             var carro = await _context.Carros.FindAsync(id);
             _context.Carros.Remove(carro);
