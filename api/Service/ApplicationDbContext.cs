@@ -9,5 +9,6 @@ namespace api.Service
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         
         public DbSet<Carro> Carros { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
     }
 }
