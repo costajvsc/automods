@@ -71,7 +71,7 @@ namespace api.Controllers
         }
 
         [HttpDelete]
-        [Route("/categorias/{id}")]
+        [Route("/categorias/destroy/{id}")]
         public async Task<IActionResult> Destroy(int? id)
         {
             var categoria = await _context.Categorias.FindAsync(id);   
