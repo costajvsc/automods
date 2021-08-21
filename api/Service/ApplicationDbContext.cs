@@ -10,5 +10,6 @@ namespace api.Service
         
         public DbSet<Carro> Carros { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<Marca> Marcas { get; set; }
     }
 }
