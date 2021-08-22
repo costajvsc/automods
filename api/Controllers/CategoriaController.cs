@@ -29,7 +29,7 @@ namespace api.Controllers
         [Route("/categorias/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
-            var categoria = await _context.Categorias.FirstOrDefaultAsync(c => c.Id == id);
+            var categoria = await _context.Categorias.FirstOrDefaultAsync(c => c.IdCategoria == id);
             if(id == null || categoria == null)
                 return NotFound();
 
@@ -38,7 +38,7 @@ namespace api.Controllers
 
         [HttpPost]
         [Route("/categorias")]
-        public async Task<IActionResult> Create([Bind("Id, Nome")] Categoria categoria)
+        public async Task<IActionResult> Create([Bind("IdCategoria, Nome")] Categoria categoria)
         {
             if(!ModelState.IsValid)
                 return StatusCode(404, categoria);
@@ -57,7 +57,7 @@ namespace api.Controllers
 
             try
             {
-                categoria.Id = id;
+                categoria.IdCategoria = id;
                 _context.Categorias.Update(categoria);
                 await _context.SaveChangesAsync();
             }
@@ -82,7 +82,7 @@ namespace api.Controllers
 
         private bool CategoriaExist(int id)
         {
-            return _context.Categorias.Any(c => c.Id == id);
+            return _context.Categorias.Any(c => c.IdCategoria == id);
         }
     }
 }

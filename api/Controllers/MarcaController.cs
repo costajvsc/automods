@@ -29,7 +29,7 @@ namespace api.Controllers
         [Route("/marcas/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
-            var marca = await _context.Marcas.FirstOrDefaultAsync(c => c.Id == id);
+            var marca = await _context.Marcas.FirstOrDefaultAsync(c => c.IdMarca == id);
             if(id == null || marca == null)
                 return NotFound();
 
@@ -57,7 +57,7 @@ namespace api.Controllers
 
             try
             {
-                marca.Id = id;
+                marca.IdMarca = id;
                 _context.Marcas.Update(marca);
                 await _context.SaveChangesAsync();
             }
@@ -82,7 +82,7 @@ namespace api.Controllers
 
         private bool MarcaExist(int id)
         {
-            return _context.Marcas.Any(c => c.Id == id);
+            return _context.Marcas.Any(c => c.IdMarca == id);
         }
     }
 }

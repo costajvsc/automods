@@ -22,14 +22,47 @@ namespace api.Controllers
         [Route("/carros")]
         public async Task<IActionResult> Index()
         {
-            return StatusCode(200, await _context.Carros.ToListAsync());
+            var carros = await (
+                from carro in _context.Carros
+                join c in _context.Categorias on carro.CategoriaId equals c.IdCategoria
+                join m in _context.Marcas on carro.MarcaId equals m.IdMarca
+                select new {
+                    idCarro = carro.IdCarro,
+                    modelo = carro.Modelo,
+                    ano = carro.Ano,
+                    categoria = c.Nome,
+                    marca = m.Nome,
+                    origem = m.Origem,
+                    autonomia = carro.Autonomia,
+                    potencia = carro.Potencia,
+                    peso = carro.Peso
+                }
+            ).ToListAsync(); 
+
+            return StatusCode(200, carros);
         }
 
         [HttpGet]
         [Route("/carros/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
-            var carro = await _context.Carros.FirstOrDefaultAsync(c => c.Id == id);
+            var carro = await (
+                from car in _context.Carros
+                join c in _context.Categorias on car.CategoriaId equals c.IdCategoria
+                join m in _context.Marcas on car.MarcaId equals m.IdMarca
+                where car.IdCarro == id
+                select new {
+                    idCarro = car.IdCarro,
+                    modelo = car.Modelo,
+                    ano = car.Ano,  
+                    categoria = c.Nome,
+                    marca = m.Nome,
+                    origem = m.Origem,
+                    autonomia = car.Autonomia,
+                    potencia = car.Potencia,
+                    peso = car.Peso
+                }
+            ).FirstAsync(); 
             
             if(id == null || carro == null)
                 return NotFound();
@@ -39,7 +72,7 @@ namespace api.Controllers
 
         [HttpPost]
         [Route("/carros")]
-        public async Task<IActionResult> Create([Bind("Id, Modelo, Potencia, Autonomia, Peso, Ano")] Carro carro)
+        public async Task<IActionResult> Create([Bind("IdCarro, Modelo, Potencia, Autonomia, Peso, Ano, IdMarca, IdCategoria")] Carro carro)
         {
             if(!ModelState.IsValid)
                 return StatusCode(404, carro);
@@ -51,14 +84,14 @@ namespace api.Controllers
 
         [HttpPut]
         [Route("/carros/{id}")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id, Modelo, Pitencia, Autonimia, Peso, Ano")] Carro carro)
+        public async Task<IActionResult> Edit(int id, [Bind("IdCarro, Modelo, Pitencia, Autonimia, Peso, Ano, IdMarca, IdCategoria")] Carro carro)
         {
             if(!ModelState.IsValid)
                 return StatusCode(404, carro);
             
             try
             {
-                carro.Id = id;
+                carro.IdCarro = id;
                 _context.Carros.Update(carro);
                 await _context.SaveChangesAsync();
             }
@@ -82,7 +115,7 @@ namespace api.Controllers
 
         private bool CarroExists(int id)
         {
-            return _context.Carros.Any(c => c.Id == id);
+            return _context.Carros.Any(c => c.IdCarro == id);
         }
     }
 }
