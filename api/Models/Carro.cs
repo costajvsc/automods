@@ -8,7 +8,7 @@ namespace api.Models
     public partial class Carro
     {
         [Key]
-        public int Id { get; set; }
+        public int IdCarro { get; set; }
 
         [Required]
         [MaxLength(50)]
@@ -18,6 +18,14 @@ namespace api.Models
         public double Autonomia { get; set; }
         public double Peso { get; set; }
         public int Ano { get; set; }
+        
+        public int MarcaId { get; set; }
+        
+        public Marca Marca { get; set; }
+
+        public int CategoriaId { get; set; }
+
+        public Categoria Categoria { get; set; }
         
     }
 }
