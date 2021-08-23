@@ -1,1 +1,78 @@
-<p>carros-list works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+            <h3>Adiconar carro</h3>
+            <form>
+                <div class="form-group mb-3">
+                  <label for="modelo">Modelo</label>
+                  <input type="text" [(ngModel)]="novoCarro.modelo" name="modelo" class="form-control" id="modelo" placeholder="Golf GTI">
+                </div>
+                <div class="form-group mb-3">
+                  <label for="marca">Marca</label>
+                  <select class="form-control" id="marca" name="marcaId" [(ngModel)]="novoCarro.marcaId">
+                    <option *ngFor="let marca of Marcas" value="{{marca.idMarca}}">{{marca.nome}}</option>
+                  </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="categoria">Categoria</label>
+                    <select class="form-control" id="categoria" name="categoria" [(ngModel)]="novoCarro.categoriaId">
+                        <option *ngFor="let categoria of Categorias" value="{{categoria.idCategoria}}">{{categoria.nome}}</option>
+                    </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="ano">Ano do modelo</label>
+                    <input type="number" [(ngModel)]="novoCarro.ano" name="ano" class="form-control" id="ano" placeholder="2009">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="peso">Peso do veículo (kg)</label>
+                    <input type="number" [(ngModel)]="novoCarro.peso" name="peso" class="form-control" id="peso" placeholder="1341">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="potencia">Potência (cv)</label>
+                    <input type="number" [(ngModel)]="novoCarro.potencia" name="potencia" class="form-control" id="potencia" placeholder="195">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="autonomia">Autonomia (km/l)</label>
+                    <input type="number" [(ngModel)]="novoCarro.autonomia" name="autonomia" class="form-control" id="autonomia" placeholder="9.5">
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" (click)="adicionarCarro()" class="btn btn-dark">
+                        <i class="fas fa-save mx-2"></i>Salvar</button>
+                </div>
+            </form>    
+        </div>
+        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+            <div *ngIf="Carros.length !== 0">
+                <h3 class="mb-3">Lista de carros</h3>
+                <div class="table-responsive-sm">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Modelo</th>
+                            <th scope="col">Marca</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Ano</th>
+                            <th scope="col">Origem</th>
+                            <th scope="col">Ação</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let carro of Carros">
+                                <td>{{carro.modelo}}</td>
+                                <td>{{carro.marca}}</td>
+                                <td>{{carro.categoria}}</td>
+                                <td>{{carro.ano}}</td>
+                                <td>
+                                    {{carro.origem}}
+                                </td>
+                                <td>
+                                    <i class="fas fa-trash text-danger" (click)="removerCarro(carro.idCarro)"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
